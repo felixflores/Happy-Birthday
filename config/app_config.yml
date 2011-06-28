@@ -1,0 +1,11 @@
+production:
+  facebook:
+    app_id: 243685762324575
+
+development:
+  facebook:
+    app_id: 125580390859653
+
+test:
+  facebook:
+    app_id: 125580390859653

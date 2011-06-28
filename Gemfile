@@ -8,4 +8,5 @@ gem 'haml'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.4"
+  gem 'ruby-debug19'
 end

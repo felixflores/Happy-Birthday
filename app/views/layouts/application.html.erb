@@ -6,9 +6,8 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-
-<%= yield %>
-<%= javascript_include_tag "jquery-1.6.1.min", "facebook" %>
-
+  <%= yield %>
+  <%= app_config_js %>
+  <%= javascript_include_tag "jquery-1.6.1.min",  "facebook", "happy_birthday" %>
 </body>
 </html>
