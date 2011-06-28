@@ -1,8 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.9'
-gem 'heroku'
+gem 'sqlite3'
 
+gem 'heroku'
+gem 'haml'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.4"
