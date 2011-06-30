@@ -27,7 +27,7 @@ HappyBirthday.friendsList = function() {
 };
 
 HappyBirthday.views.insertToBirthdayList = function(user) {
-  $('#friends-with-birthday').append("<li>" + user.name + "</li>");
+  $('#friends-with-birthday').append("<li>" + user.first_name + " " + user.last_name + "</li>");
 };
 
 HappyBirthday.postToWall = function(friendsWithBirthdayMessages) {
