@@ -8,7 +8,7 @@ HappyBirthday.friendsList = function() {
 
   FB.api({
     method: 'fql.query',
-    query: 'SELECT uid, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
+    query: 'SELECT uid, online_presence, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
 
     function (friendsWithBirthday) {
       $.each(friendsWithBirthday, function(index, friend) {
@@ -17,25 +17,16 @@ HappyBirthday.friendsList = function() {
             userBirthdayDate = parseInt(birthdayArray[1]);
 
         if(userBirthdayMonth === currentMonth && userBirthdayDate === currentDate) {
-          HappyBirthday.insertToBirthdayList(friend);
+          $('body').trigger('birthday-found', friend);
         }
+
+        $('body').trigger('birthday-list-loaded');
       });
 
-      if ($('#friends-with-birthday li').length < 1) {
-        $('#friends-with-birthday ul').append("<li>No Birthdays Today Buddy</li>");
-      }
 
       $('#friends-with-birthday').show();
     }
   );
-};
-
-HappyBirthday.insertToBirthdayList = function(user) {
-  var friendInfo = "<img src=\"" + user.pic_square + "\" />";
-  friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
-  friendInfo += "<textarea rows=\"2\" cols=\"20\" name=\"birthday_wish_" + user.uid + "\"> Happy Birthday :)</textarea>";
-
-  $('#friends-with-birthday ul').append("<li>" + friendInfo + "</li>");
 };
 
 HappyBirthday.postToWall = function(birthdayWishes) {
@@ -48,18 +39,35 @@ HappyBirthday.postToWall = function(birthdayWishes) {
         console.log(response.error);
       }
     });
-  });
-};
 
-HappyBirthday.done = function() {
-  $('#friends-with-birthday').html('Done!');
+    $('body').trigger('birthday-wishes-posted');
+  });
 };
 
 $(function() {
   $('#friends-with-birthday form').live('submit', function(e) {
     e.preventDefault();
     HappyBirthday.postToWall($(this).serializeArray());
-    HappyBirthday.done();
+  });
+
+  $('body').bind('birthday-list-loaded', function() {
+    $('#friends-with-birthday').css('background', 'none');
+
+    if ($('#friends-with-birthday li').length < 1) {
+      $('#friends-with-birthday ul').append("<li>No Birthdays Today Buddy</li>");
+    }
+  });
+
+  $('body').bind('birthday-wishes-posted', function() {
+    $('#friends-with-birthday').html('Done!');
+  });
+
+  $('body').bind('birthday-found', function(e, user) {
+    var friendInfo = "<img src=\"" + user.pic_square + "\" />";
+    friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
+    friendInfo += "<textarea rows=\"2\" cols=\"20\" name=\"birthday_wish_" + user.uid + "\"> Happy Birthday :)</textarea>";
+
+    $('#friends-with-birthday ul').append("<li>" + friendInfo + "</li>");
   });
 });
 
