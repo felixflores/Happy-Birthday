@@ -11,6 +11,8 @@ HappyBirthday.listFriends = function() {
     query: 'SELECT uid, online_presence, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
 
     function (friendsWithBirthday) {
+      $('body').trigger('birthday-list-loading');
+
       $.each(friendsWithBirthday, function(index, friend) {
         var birthdayArray = friend.birthday_date.split('/'),
             userBirthdayMonth = parseInt(birthdayArray[0]),
@@ -49,11 +51,15 @@ $(function() {
     HappyBirthday.postToWall($(this).serializeArray());
   });
 
+  $('body').bind('birthday-list-loading', function() {
+    $friendWithBirthday.find('ul').html("");
+  });
+
   $('body').bind('birthday-list-loaded', function() {
     $('#friends-with-birthday').css('background', 'none');
 
     if ($friendWithBirthday.find('li').length < 1) {
-      $$friendWithBirthday.find('ul').append("<li>No Birthdays Today Buddy</li>");
+      $friendWithBirthday.find('ul').append("<li>No Birthdays Today Buddy</li>");
     }
   });
 
