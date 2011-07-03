@@ -1,7 +1,5 @@
 (function() {
-var HappyBirthday = {
-  views: {}
-};
+window.HappyBirthday = {};
 
 HappyBirthday.friendsList = function() {
   var today = new Date(),
@@ -10,7 +8,7 @@ HappyBirthday.friendsList = function() {
 
   FB.api({
     method: 'fql.query',
-    query: 'SELECT first_name, last_name, birthday_date, uid FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
+    query: 'SELECT uid, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
 
     function (friendsWithBirthday) {
       $.each(friendsWithBirthday, function(index, friend) {
@@ -19,20 +17,33 @@ HappyBirthday.friendsList = function() {
             userBirthdayDate = parseInt(birthdayArray[1]);
 
         if(userBirthdayMonth === currentMonth && userBirthdayDate === currentDate) {
-          HappyBirthday.views.insertToBirthdayList(friend);
+          HappyBirthday.insertToBirthdayList(friend);
         }
       });
+
+      if ($('#friends-with-birthday li').length < 1) {
+        $('#friends-with-birthday ul').append("<li>No Birthdays Today Buddy</li>");
+      }
+
+      $('#friends-with-birthday').show();
     }
   );
 };
 
-HappyBirthday.views.insertToBirthdayList = function(user) {
-  $('#friends-with-birthday').append("<li>" + user.first_name + " " + user.last_name + "</li>");
+HappyBirthday.insertToBirthdayList = function(user) {
+  var friendInfo = "<img src=\"" + user.pic_square + "\" />";
+  friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
+  friendInfo += "<textarea rows=\"2\" cols=\"20\" name=\"birthday_wish_" + user.uid + "\"> Happy Birthday :)</textarea>";
+
+  $('#friends-with-birthday ul').append("<li>" + friendInfo + "</li>");
 };
 
-HappyBirthday.postToWall = function(friendsWithBirthdayMessages) {
-  $.each(friendsWithBirthdayMessages, function(index, friendWithBirthdayMessage) {
-    FB.api('/me/feed', 'post', { message: "Testing..." }, function(response) {
+HappyBirthday.postToWall = function(birthdayWishes) {
+  $.each(birthdayWishes, function(index, birthdayWish) {
+    var uid = birthdayWish.name.split('_')[2],
+        message = birthdayWish.value;
+
+    FB.api('/' + uid + '/feed', 'post', { message: message }, function(response) {
       if (!response || response.error) {
         console.log(response.error);
       }
@@ -40,6 +51,16 @@ HappyBirthday.postToWall = function(friendsWithBirthdayMessages) {
   });
 };
 
-HappyBirthday.friendsList();
+HappyBirthday.done = function() {
+  $('#friends-with-birthday').html('Done!');
+};
+
+$(function() {
+  $('#friends-with-birthday form').live('submit', function(e) {
+    e.preventDefault();
+    HappyBirthday.postToWall($(this).serializeArray());
+    HappyBirthday.done();
+  });
+});
 
 })();

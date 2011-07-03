@@ -2,12 +2,15 @@
 <html>
 <head>
   <title>Happy Birthday</title>
-  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
+  <%= stylesheet_link_tag "application" %>
   <%= csrf_meta_tag %>
 </head>
 <body>
   <%= yield %>
   <%= app_config_js %>
-  <%= javascript_include_tag "jquery-1.6.1.min",  "facebook", "happy_birthday" %>
+
+  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <%= javascript_include_tag "jquery-1.6.1.min", "happy_birthday", "facebook" %>
 </body>
 </html>
