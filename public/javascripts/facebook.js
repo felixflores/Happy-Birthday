@@ -10,9 +10,11 @@ FB.init({
 var toggleLoginButton = function(status) {
   if (status === "connected") {
     $('#login-button').hide();
-    HappyBirthday.friendsList();
+    $('#friends-with-birthday').show();
+    HappyBirthday.listFriends();
   } else {
     $('#login-button').show();
+    $('#friends-with-birthday').hide();
   }
 }
 

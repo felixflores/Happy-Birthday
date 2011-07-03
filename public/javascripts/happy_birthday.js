@@ -1,7 +1,7 @@
 (function() {
 window.HappyBirthday = {};
 
-HappyBirthday.friendsList = function() {
+HappyBirthday.listFriends = function() {
   var today = new Date(),
       currentDate = today.getDate(),
       currentMonth = today.getMonth() + 1;
@@ -19,12 +19,9 @@ HappyBirthday.friendsList = function() {
         if(userBirthdayMonth === currentMonth && userBirthdayDate === currentDate) {
           $('body').trigger('birthday-found', friend);
         }
-
-        $('body').trigger('birthday-list-loaded');
       });
 
-
-      $('#friends-with-birthday').show();
+      $('body').trigger('birthday-list-loaded');
     }
   );
 };
@@ -45,7 +42,9 @@ HappyBirthday.postToWall = function(birthdayWishes) {
 };
 
 $(function() {
-  $('#friends-with-birthday form').live('submit', function(e) {
+  var $friendWithBirthday = $('#friends-with-birthday');
+
+  $friendWithBirthday.find('form').live('submit', function(e) {
     e.preventDefault();
     HappyBirthday.postToWall($(this).serializeArray());
   });
@@ -53,13 +52,13 @@ $(function() {
   $('body').bind('birthday-list-loaded', function() {
     $('#friends-with-birthday').css('background', 'none');
 
-    if ($('#friends-with-birthday li').length < 1) {
-      $('#friends-with-birthday ul').append("<li>No Birthdays Today Buddy</li>");
+    if ($friendWithBirthday.find('li').length < 1) {
+      $$friendWithBirthday.find('ul').append("<li>No Birthdays Today Buddy</li>");
     }
   });
 
   $('body').bind('birthday-wishes-posted', function() {
-    $('#friends-with-birthday').html('Done!');
+    $friendWithBirthday.html('Done!');
   });
 
   $('body').bind('birthday-found', function(e, user) {
@@ -67,7 +66,7 @@ $(function() {
     friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
     friendInfo += "<textarea rows=\"2\" cols=\"20\" name=\"birthday_wish_" + user.uid + "\"> Happy Birthday :)</textarea>";
 
-    $('#friends-with-birthday ul').append("<li>" + friendInfo + "</li>");
+    $friendWithBirthday.find('ul').append("<li>" + friendInfo + "</li>");
   });
 });
 
