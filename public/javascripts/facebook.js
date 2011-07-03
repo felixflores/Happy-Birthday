@@ -1,3 +1,4 @@
+(function() {
 $(function() {
 
 FB.init({
@@ -28,3 +29,4 @@ FB.Event.subscribe("auth.sessionChange", function(response) {
 });
 
 });
+})();
