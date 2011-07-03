@@ -1,0 +1,10 @@
+= Usage
+
+Just visit http://happybirthday.heroku.com/. It's pretty self explanatory.
+This was a quick spike and still unpolished.
+
+= TODO
+* Add stylesheets
+* Allow users to suggest new birthday wishes
+* Allow users to pick suggested birthday wishes
+* Create cron to automatically send birthday wishes
