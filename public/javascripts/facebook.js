@@ -10,19 +10,18 @@ FB.init({
 
 var toggleLoginButton = function(status) {
   if (status === "connected") {
-    $('#login-button').hide();
     $('#friends-with-birthday').show();
+    $('#login-button').hide();
     HappyBirthday.listFriends();
   } else {
-    $('#login-button').show();
     $('#friends-with-birthday').hide();
+    $('#login-button').show();
   }
 }
 
 FB.getLoginStatus(function(response) {
   toggleLoginButton(response.status);
 });
-
 
 FB.Event.subscribe("auth.sessionChange", function(response) {
   toggleLoginButton(response.status);

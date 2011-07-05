@@ -1,0 +1,19 @@
+#container {
+  width: 50%;
+  margin: auto;
+  padding: 10%;
+  display: block;
+  text-align:center;
+}
+
+#friends-with-birthday,
+#friends-with-birthday input,
+#login-button,
+#friends-with-birthday .name {
+  display: none;
+}
+
+#friends-with-birthday {
+  background: url('/images/spinner.gif') no-repeat center center;
+}
+

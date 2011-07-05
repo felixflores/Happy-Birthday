@@ -1,0 +1,19 @@
+body {
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  color: #333;
+}
+
+h1, h2 {
+  font-size: 2em;
+}
+
+p {
+  font-family: georgia, 'times New Roman', serif;
+  font-style: italic;
+  color: #999;
+  margin-bottom: 2em;
+}
+
+#friends-with-birthday {
+  min-height: 200px;
+}

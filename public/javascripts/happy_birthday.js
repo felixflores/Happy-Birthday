@@ -8,7 +8,7 @@ HappyBirthday.listFriends = function() {
 
   FB.api({
     method: 'fql.query',
-    query: 'SELECT uid, online_presence, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
+    query: 'SELECT uid, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
 
     function (friendsWithBirthday) {
       $('body').trigger('birthday-list-loading');
@@ -57,6 +57,7 @@ $(function() {
 
   $('body').bind('birthday-list-loaded', function() {
     $('#friends-with-birthday').css('background', 'none');
+    $('#friends-with-birthday input').fadeIn(500);
 
     if ($friendWithBirthday.find('li').length < 1) {
       $friendWithBirthday.find('ul').append("<li>No Birthdays Today Buddy</li>");
@@ -70,7 +71,6 @@ $(function() {
   $('body').bind('birthday-found', function(e, user) {
     var friendInfo = "<img src=\"" + user.pic_square + "\" />";
     friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
-    friendInfo += "<textarea rows=\"2\" cols=\"20\" name=\"birthday_wish_" + user.uid + "\"> Happy Birthday :)</textarea>";
 
     $friendWithBirthday.find('ul').append("<li>" + friendInfo + "</li>");
   });

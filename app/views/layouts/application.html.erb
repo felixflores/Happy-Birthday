@@ -3,14 +3,16 @@
 <head>
   <title>Happy Birthday</title>
   <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
-  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "layout", "style" %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-  <%= yield %>
-  <%= app_config_js %>
+  <div id="container">
+    <%= yield %>
+    <%= app_config_js %>
 
-  <script src="http://connect.facebook.net/en_US/all.js"></script>
-  <%= javascript_include_tag "jquery-1.6.1.min", "happy_birthday", "facebook" %>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <%= javascript_include_tag "jquery-1.6.1.min", "happy_birthday", "facebook" %>
+</div>
 </body>
 </html>

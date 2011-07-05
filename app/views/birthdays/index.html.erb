@@ -1,14 +1,15 @@
 <div id='fb-root'></div>
 <div id="login-button">
-  <h2>Happy Birthday App</h2>
+  <h1>Happy Birthday App</h1>
   <p> Say happy birthday to all your friends, fast!</p>
-  <fb:login-button perms="friends_birthday, publish_stream">Login with Facebook</fb:login-button>
+  <fb:login-button perms="friends_birthday, publish_stream" id="login">Login with Facebook</fb:login-button>
 </div>
 
 
 <div id='friends-with-birthday'>
-  <h2>Friends With Birthdays</h2>
   <form>
+    <textarea rows="2" cols="20" name=\"birthday_wish_default"> Happy Birthday :)</textarea>
+    <h2>Friends With Birthdays</h2>
     <ul></ul>
     <input type="submit" value="Say it!" />
   </form>
