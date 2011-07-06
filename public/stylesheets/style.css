@@ -17,3 +17,14 @@ p {
 #friends-with-birthday {
   min-height: 200px;
 }
+
+#friends-with-birthday textarea {
+  height: 120px;
+  margin: 2em 0;
+  resize: none;
+  width: 320px;
+}
+
+#friends-with-birthday input {
+  margin: 1em;
+}

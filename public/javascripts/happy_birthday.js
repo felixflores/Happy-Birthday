@@ -28,12 +28,9 @@ HappyBirthday.listFriends = function() {
   );
 };
 
-HappyBirthday.postToWall = function(birthdayWishes) {
-  $.each(birthdayWishes, function(index, birthdayWish) {
-    var uid = birthdayWish.name.split('_')[2],
-        message = birthdayWish.value;
-
-    FB.api('/' + uid + '/feed', 'post', { message: message }, function(response) {
+HappyBirthday.postToWall = function(uids, message) {
+  $.each(uids, function(index, uid) {
+    FB.api('/' + uid.value + '/feed', 'post', { message: message }, function(response) {
       if (!response || response.error) {
         console.log(response.error);
       }
@@ -48,7 +45,7 @@ $(function() {
 
   $friendWithBirthday.find('form').live('submit', function(e) {
     e.preventDefault();
-    HappyBirthday.postToWall($(this).serializeArray());
+    HappyBirthday.postToWall($(this).serializeArray(), $('#birthday-wish').val());
   });
 
   $('body').bind('birthday-list-loading', function() {
@@ -56,8 +53,9 @@ $(function() {
   });
 
   $('body').bind('birthday-list-loaded', function() {
-    $('#friends-with-birthday').css('background', 'none');
-    $('#friends-with-birthday input').fadeIn(500);
+    $friendWithBirthday.css('background', 'none');
+    $friendWithBirthday.find('input').fadeIn(500);
+    $friendWithBirthday.find('textarea').focus();
 
     if ($friendWithBirthday.find('li').length < 1) {
       $friendWithBirthday.find('ul').append("<li>No Birthdays Today Buddy</li>");
@@ -71,6 +69,7 @@ $(function() {
   $('body').bind('birthday-found', function(e, user) {
     var friendInfo = "<img src=\"" + user.pic_square + "\" />";
     friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
+    friendInfo += "<input type=\"hidden\" name=\"uid\" value=\"" + user.uid +"\" />";
 
     $friendWithBirthday.find('ul').append("<li>" + friendInfo + "</li>");
   });
