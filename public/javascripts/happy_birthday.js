@@ -8,7 +8,7 @@ HappyBirthday.listFriends = function() {
 
   FB.api({
     method: 'fql.query',
-    query: 'SELECT uid, first_name, last_name, birthday_date, pic_square FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
+    query: 'SELECT uid, first_name, last_name, birthday_date, pic_square, profile_url FROM user WHERE birthday_date != "" AND uid IN (SELECT uid1 FROM friend WHERE uid2 = me())' },
 
     function (friendsWithBirthday) {
       $('body').trigger('birthday-list-loading');
@@ -45,7 +45,7 @@ $(function() {
       $name = $('#name');
 
   function bindPicToolTip() {
-    $friendWithBirthday.find('.pic').hover(
+    $friendWithBirthday.find('a').hover(
       function() {
         $name.html($(this).find('+ .name').html());
       },
@@ -81,7 +81,7 @@ $(function() {
   });
 
   $('body').bind('birthday-found', function(e, user) {
-    var friendInfo = "<img class=\"pic\" src=\"" + user.pic_square + "\" />";
+    var friendInfo = "<a href=\"" + user.profile_url + "\" target=\"_blank\"><img class=\"pic\" src=\"" + user.pic_square + "\" /></a>";
     friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
     friendInfo += "<input type=\"hidden\" name=\"uid\" value=\"" + user.uid +"\" />";
     friendInfo += "<span class=\"remove\">Remove</span>";
