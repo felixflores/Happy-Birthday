@@ -41,7 +41,19 @@ HappyBirthday.postToWall = function(uids, message) {
 };
 
 $(function() {
-  var $friendWithBirthday = $('#friends-with-birthday');
+  var $friendWithBirthday = $('#friends-with-birthday'),
+      $name = $('#name');
+
+  function bindPicToolTip() {
+    $friendWithBirthday.find('.pic').hover(
+      function() {
+        $name.html($(this).find('+ .name').html());
+      },
+      function() {
+        $name.html('&nbsp;');
+      }
+    );
+  };
 
   $friendWithBirthday.find('form').live('submit', function(e) {
     e.preventDefault();
@@ -60,6 +72,8 @@ $(function() {
     if ($friendWithBirthday.find('li').length < 1) {
       $friendWithBirthday.find('ul').append("<li>No Birthdays Today Buddy</li>");
     }
+
+    bindPicToolTip();
   });
 
   $('body').bind('birthday-wishes-posted', function() {
@@ -67,12 +81,20 @@ $(function() {
   });
 
   $('body').bind('birthday-found', function(e, user) {
-    var friendInfo = "<img src=\"" + user.pic_square + "\" />";
+    var friendInfo = "<img class=\"pic\" src=\"" + user.pic_square + "\" />";
     friendInfo += "<span class=\"name\">" + user.first_name + " " + user.last_name + "</span>";
     friendInfo += "<input type=\"hidden\" name=\"uid\" value=\"" + user.uid +"\" />";
+    friendInfo += "<span class=\"remove\">Remove</span>";
 
     $friendWithBirthday.find('ul').append("<li>" + friendInfo + "</li>");
   });
+
+  $('.remove').live('click', function() {
+    $(this).parent('li').fadeOut(200, function() {
+      $(this).remove();
+    })
+  });
+
 });
 
 })();

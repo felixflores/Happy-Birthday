@@ -28,3 +28,25 @@ p {
 #friends-with-birthday input {
   margin: 1em;
 }
+
+#friends-with-birthday ul {
+  float: left;
+  width: 100%;
+}
+
+#friends-with-birthday li {
+  border: 1px solid #ccc;
+  float: left;
+  margin: 5px;
+  padding: 8px 0 2px;
+  width: 67px;
+}
+
+#friends-with-birthday .remove {
+  color: #3366CC;
+  font-size: 0.7em;
+}
+
+#friends-with-birthday .remove:hover {
+  text-decoration: underline;
+}
